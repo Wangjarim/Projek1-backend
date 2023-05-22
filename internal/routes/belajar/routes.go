@@ -17,4 +17,5 @@ func SetupBelajarRoutes(router fiber.Router) {
 	user.Put("/:id_user", belajarHandler.UpdateUser)
 	// // Delete one user
 	user.Delete("/:id_user", belajarHandler.DeleteUser)
+
 }

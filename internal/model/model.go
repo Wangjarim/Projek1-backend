@@ -10,3 +10,11 @@ type Pasien struct {
 	Alamat        string `gorm:"column:alamat" json:"alamat"`
 	No_hp         string `gorm:"column:no_hp" json:"no_hp"`
 }
+
+type Dokter struct {
+	Id        int    `gorm:"primaryKey;column:id;autoIncrement" json:"id"`
+	Id_dokter int    `gorm:"column:id_dokter" json:"id_dokter"`
+	Nama      string `gorm:"column:nama" json:"nama"`
+	Keahlian  string `gorm:"column:keahlian" json:"keahlian"`
+	No_hp     string `gorm:"column:no_hp" json:"no_hp"`
+}
