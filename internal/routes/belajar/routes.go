@@ -2,6 +2,7 @@ package belajarRoutes
 
 import (
 	"github.com/gofiber/fiber/v2"
+	_ "github.com/gofiber/fiber/v2"
 	belajarHandler "sistem-informasi-klinik/internal/handlers/belajar"
 )
 
