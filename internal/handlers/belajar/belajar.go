@@ -10,7 +10,7 @@ func GetUsers(c *fiber.Ctx) error {
 	{
 		var users []model.Pasien
 		// Find all users in database
-		result := database.DB.Find(&users)
+		result := database.DB.Preload("JadwalDokter.Dokter").Preload("JadwalDokter.Hari").Preload("JadwalDokter.Jam").Preload("JadwalDokter.Ruangan").Find(&users)
 		// Check for errors during query execution
 		if result.Error != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -42,8 +42,8 @@ func CreateUser(c *fiber.Ctx) error {
 		}
 		// Return success message
 		return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-			"message": "User Berhasil Ditambahkan!",
-			"data":    user,
+			"message": "Data Berhasil Ditambahkan!",
+			"data":    user.Id,
 		})
 	}
 }
@@ -53,7 +53,7 @@ func GetUser(c *fiber.Ctx) error {
 		id := c.Params("id_user")
 		// Find user by id_user in database
 		var user model.Pasien
-		result := database.DB.First(&user, id)
+		result := database.DB.Preload("JadwalDokter.Dokter").Preload("JadwalDokter.Hari").Preload("JadwalDokter.Jam").Preload("JadwalDokter.Ruangan").First(&user, id)
 		// Check if user exists
 		if result.RowsAffected == 0 {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -135,31 +135,27 @@ func DeleteUser(c *fiber.Ctx) error {
 	}
 }
 
-func DeleteUser2(c *fiber.Ctx) error {
+func GetJadwalById(c *fiber.Ctx) error {
 	// Get id_user parameter from request url
-	{
-		id := c.Params("id_user")
-		// Find user by id_user in database
-		var user model.Pasien
-		result := database.DB.First(&user, id)
-		// Check if user exists
-		if result.RowsAffected == 0 {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"message": "User Tidak Ditemukan",
-			})
-		}
-		// Delete user from database
-		result = database.DB.Delete(&user)
-		// Check for errors during deletion
-		if result.Error != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-				"message": result.Error.Error(),
-			})
-		}
-		// Return success message
-		return c.Status(fiber.StatusOK).JSON(fiber.Map{
-			"message": "User Berhasil Dihapus!",
-			"data":    user,
+	id := c.Params("id_user")
+	// Find user by id_user in database
+	var user model.Pasien
+	result := database.DB.Preload("JadwalDokter.Dokter").Preload("JadwalDokter.Hari").Preload("JadwalDokter.Jam").Preload("JadwalDokter.Ruangan").Where("id = ?", id).First(&user, id)
+	// Check if user exists
+	if result.RowsAffected == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "User Tidak Ditemukan!",
 		})
 	}
+	// Check for errors during query
+	if result.Error != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": result.Error.Error(),
+		})
+	}
+	// Return user
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success",
+		"data":    user,
+	})
 }

@@ -17,7 +17,7 @@ import (
 func Get(c *fiber.Ctx) error {
 	var jadwals []model.JadwalDokter
 	// Find all users in database
-	result := database.DB.Preload("Dokter").Preload("Hari").Preload("Jam").Find(&jadwals)
+	result := database.DB.Preload("Dokter").Preload("Hari").Preload("Jam").Preload("Ruangan").Find(&jadwals)
 
 	// Check for errors during query execution
 	if result.Error != nil {
@@ -80,7 +80,7 @@ func GetJadwal(c *fiber.Ctx) error {
 
 	var jadwal model.JadwalDokter
 	// Cari jadwal dokter berdasarkan ID
-	result := database.DB.Preload("Dokter").Preload("Hari").Preload("Jam").First(&jadwal, id)
+	result := database.DB.Preload("Dokter").Preload("Hari").Preload("Jam").Preload("Ruangan").First(&jadwal, id)
 
 	// Periksa apakah jadwal dokter ditemukan atau tidak
 	if result.Error != nil {
