@@ -13,10 +13,11 @@ func SetupBelajarRoutes(router fiber.Router) {
 	// Read all users
 	user.Get("/", belajarHandler.GetUsers)
 	// // Read one user
-	user.Get("/:id_user", belajarHandler.GetUser)
+	user.Get("/:id", belajarHandler.GetUser)
 	// // Update one user
 	user.Put("/:id_user", belajarHandler.UpdateUser)
 	// // Delete one user
 	user.Delete("/:id_user", belajarHandler.DeleteUser)
+	user.Get("/:id_user", belajarHandler.GetJadwalById)
 
 }

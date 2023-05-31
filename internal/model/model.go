@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Pasien struct {
 	Id           int          `gorm:"primaryKey;column:id;autoIncrement" json:"id"`
 	Namalengkap  string       `gorm:"column:nama_lengkap" json:"nama_lengkap"`
@@ -10,7 +12,7 @@ type Pasien struct {
 	Alamat       string       `gorm:"column:alamat" json:"alamat"`
 	Nohp         string       `gorm:"column:no_hp" json:"no_hp"`
 	IdJadwal     string       `gorm:"column:id_jadwal;foreignKey:JadwalId" json:"id_jadwal"`
-	TglReservasi string       `gorm:"column:tgl_reservasi" json:"tgl_reservasi"`
+	TglReservasi time.Time    `gorm:"column:tgl_reservasi;default:CURRENT_TIMESTAMP" json:"tgl_reservasi"`
 	JadwalDokter JadwalDokter `gorm:"foreignKey:IdJadwal" json:"jadwal_dokter"`
 }
 

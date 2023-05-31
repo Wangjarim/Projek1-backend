@@ -2,7 +2,6 @@ package jadwal_dokterRoutes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	_ "github.com/gofiber/fiber/v2"
 	jadwal_dokterHandler "sistem-informasi-klinik/internal/handlers/jadwal_dokter"
 )
 
